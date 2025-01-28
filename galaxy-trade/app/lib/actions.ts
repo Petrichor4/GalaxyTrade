@@ -4,6 +4,7 @@
 import { sql } from '@vercel/postgres';
 import bcrypt from 'bcrypt'
 import { User } from './definitions';
+import { Item } from '../types/items';
 
   
 export async function addUser(username:string, password: string, contact: string) {
@@ -40,5 +41,17 @@ export async function updateUserPic(username: string, picUrl: string) {
         UPDATE users SET profile_pic = ${picUrl} WHERE username = ${username}`
     } catch (error) {
         console.error(error)
+    }
+}
+
+export async function getUserItems(username: string): Promise<Item[]> {
+    try {
+        const result = await sql<Item>`
+        SELECT * FROM items WHERE owner = ${username}
+        `
+        return result.rows;
+    } catch (error) {
+        console.error(error)
+        return [];
     }
 }

@@ -27,11 +27,13 @@ export default function LoginModal() {
 
     if (password !== passwordConfirm) {
       setAlert("Passwords must match");
+      setLoading(false);
       return;
     }
 
     if (!username || !contact || !password || !passwordConfirm) {
       setAlert("Please fill in all fields");
+      setLoading(false);
       return;
     }
 
@@ -43,7 +45,9 @@ export default function LoginModal() {
         contact: contact,
       }),
     });
+    setAlert('account created succesfully!')
     setLoading(false);
+    setLogIn(true);
   };
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -57,6 +61,7 @@ export default function LoginModal() {
 
     if (!username || !password) {
       setAlert("Please finish the form");
+      setLoading(false);
       return;
     }
 
