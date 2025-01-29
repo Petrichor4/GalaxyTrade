@@ -81,3 +81,11 @@ body {
   display: flex;
 
 }
+
+.inventory-stack * {
+  display: block;
+}
+
+.inventory-card > * {
+  margin: 3 0 3 0;
+}

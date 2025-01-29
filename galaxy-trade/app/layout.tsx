@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import Head from 'next/head';
 import { Provider } from '@/components/ui/provider';
 import { getServerSession } from "next-auth";
+import ClientSessionProvider from './components/ClientSessionProvider';
 
 export default async function RootLayout({
   children,
@@ -11,7 +12,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getServerSession();
-  console.log({ session});
+  console.log({ session });
   const user = session?.user;
   let isLoggedIn = false;
 
@@ -29,13 +30,15 @@ export default async function RootLayout({
         <title>GalaxyTrade</title>
       </Head>
       <body>
-        <Provider>
-          <header>
-            <Navbar username={user?.name || ""} isLoggedIn={isLoggedIn}/>
-          </header>
+        <ClientSessionProvider session={session}>
+          <Provider>
+            <header>
+              <Navbar username={user?.name || ""} isLoggedIn={isLoggedIn} />
+            </header>
             <main>{children}</main>
-          <Footer />
-        </Provider>
+            <Footer />
+          </Provider>
+        </ClientSessionProvider>
       </body>
     </html>
   );
